@@ -1,0 +1,85 @@
+[project]
+name = "complaint-triage"
+version = "0.0.0"
+description = "Priorisation des réclamations clients en banque de détail, sur les données publiques du CFPB."
+readme = "README.md"
+authors = [{ name = "Nathan Mang" }]
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=2.2",
+    "matplotlib>=3.9",
+    "pyarrow>=21",
+    "pandera>=0.34.1",
+    "scikit-learn>=1.9.1",
+    "xgboost>=3.4.1",
+    "mlflow>=3",
+    "defusedxml>=0.7.1",
+    "fastembed>=0.7",
+    "tzdata>=2025.2",
+    "psycopg[binary]>=3.2",
+    "pydantic>=2.11",
+    "langgraph>=0.6",
+]
+
+[tool.uv]
+# Le groupe demo (interface Streamlit) est installé sur le poste et en CI, pour que mypy vérifie
+# aussi l'interface ; l'image principale l'exclut explicitement.
+default-groups = ["dev", "demo"]
+
+[dependency-groups]
+demo = [
+    "streamlit>=1.40",
+]
+dev = [
+    "ruff>=0.13",
+    "mypy>=1.18",
+    "pandas-stubs>=2.2",
+    "pytest>=8.4",
+    "pre-commit>=4.3",
+    "types-defusedxml>=0.7.0.20260504",
+]
+
+[build-system]
+requires = ["uv_build>=0.13,<0.14"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E", "W",  # style PEP 8
+    "F",       # erreurs logiques (variables inutilisées, imports manquants)
+    "I",       # ordre des imports
+    "UP",      # syntaxe Python moderne
+    "B",       # pièges courants (arguments mutables par défaut, etc.)
+    "SIM",     # simplifications
+    "N",       # conventions de nommage
+    "S",       # sécurité (bandit) : SQL concaténé, secrets en dur, subprocess...
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Les scripts appellent des URL et des programmes fixes, choisis par nous : pas d'entrée utilisateur.
+"scripts/**" = ["S310", "S603"]
+"tests/**" = ["S101"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src", "scripts"]
+
+# scikit-learn ne publie pas d'annotations de types : on accepte ses imports sans vérification.
+[[tool.mypy.overrides]]
+module = ["sklearn.*"]
+ignore_missing_imports = true
+
+# Bibliothèques du modèle de langage, installées seulement sur la machine GPU (Colab).
+[[tool.mypy.overrides]]
+module = ["torch.*", "transformers.*", "datasets.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
