@@ -162,6 +162,11 @@ def queue_tab() -> None:
         "une indemnisation, estimée par la règle retenue en v0.1 (taux historiques de la banque "
         "par motif). Chaque semaine, la banque traite d'abord 10 % de la file de chaque produit."
     )
+    st.caption(
+        "Les dossiers d'un même motif ont la même note : c'est un taux par catégorie. Un modèle "
+        "plus fin (XGBoost) ne classait pas mieux sur des données jamais vues. À note égale, le "
+        "plus ancien passe en premier."
+    )
     with database().reading() as conn:
         rows = conn.execute(
             "SELECT company FROM complaints GROUP BY company ORDER BY count(*) DESC LIMIT 25"

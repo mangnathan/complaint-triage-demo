@@ -37,5 +37,9 @@ COPY --chown=user:user demo/data/ /app/data/
 RUN python -c "from fastembed import TextEmbedding; \
 TextEmbedding('BAAI/bge-small-en-v1.5', cache_dir='/app/data/models/fastembed')"
 
+# La base est préparée ici, une fois : au lancement, il ne reste qu'à la démarrer.
+ENV DEMO_PG_DIR=/app/pgdata
+RUN python -m complaint_triage.demo --prepare
+
 EXPOSE 7860
 CMD ["python", "-m", "complaint_triage.demo"]
