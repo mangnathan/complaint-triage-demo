@@ -9,7 +9,7 @@ encadrés.**
 chargement peut prendre jusqu'à deux minutes).
 
 Ce dépôt sert uniquement au déploiement. Il est produit par `scripts/demo/deploy_demo.py` à
-partir du dépôt principal, commit `301fb91`, et ne se modifie pas à la main : le code, les
+partir du dépôt principal, commit `7c2ef42`, et ne se modifie pas à la main : le code, les
 résultats, les rapports et les notes de décision sont dans [complaint-triage](https://github.com/mangnathan/complaint-triage).
 
 ## Ce que montre la démo
