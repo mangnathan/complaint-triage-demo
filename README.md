@@ -9,7 +9,7 @@ encadrés.**
 chargement peut prendre jusqu'à deux minutes).
 
 Ce dépôt sert uniquement au déploiement. Il est produit par `scripts/demo/deploy_demo.py` à
-partir du dépôt principal, commit `7c2ef42`, et ne se modifie pas à la main : le code, les
+partir du dépôt principal, commit `49b7eb2`, et ne se modifie pas à la main : le code, les
 résultats, les rapports et les notes de décision sont dans [complaint-triage](https://github.com/mangnathan/complaint-triage).
 
 ## Ce que montre la démo
@@ -41,8 +41,10 @@ docker run --rm -p 7860:7860 complaint-triage-demo
 ```
 
 Puis ouvrir http://localhost:7860. Sans clé, les exemples enregistrés fonctionnent et les
-questions libres sont désactivées. Pour les activer, passer une clé Gemini créée sur un projet
-sans facturation : `-e GEMINI_API_KEY=... -e GEMINI_MODEL=...`.
+questions libres sont désactivées : c'est le cas de la démo en ligne, car les conditions de
+l'API Gemini réservent aux services payants les applications ouvertes à des visiteurs en
+Europe. Pour essayer les questions libres sur son propre poste, passer sa propre clé :
+`-e GEMINI_API_KEY=... -e GEMINI_MODEL=...`.
 
 ## Données et licence
 
